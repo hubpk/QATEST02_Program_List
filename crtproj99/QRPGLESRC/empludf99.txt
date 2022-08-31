@@ -1,0 +1,19 @@
+  CREATE OR REPLACE FUNCTION CUSTOMER_DETAILS(
+          CUSTNM   CHAR(30),
+          CUCITY   CHAR(30),
+          CULINE1  CHAR(50),
+          CUCOUN   CHAR(2)
+        )
+        RETURNS VARCHAR(90)
+        LANGUAGE SQL
+        DETERMINISTIC
+
+        BEGIN
+          DECLARE CUSFULLADR VARCHAR(90) ;
+
+          SET CUSFULLADR = RTRIM(CUSTNM) CONCAT ', ' CONCAT
+                           RTRIM(CUCITY) CONCAT '-' CONCAT
+                           RTRIM(CULINE1) CONCAT '  @  ' CONCAT CUCOUN;
+
+          RETURN CUSFULLADR;
+        END ;
