@@ -1,0 +1,6 @@
+              Pgm &var99 &var98
+                Dcl &var99 *Char 20
+                Dcl &var98 *Char 10
+                chgvar &var99 &var99 *cat &var98
+                sndpgmmsg msg(&var99)
+              EndPgm  
