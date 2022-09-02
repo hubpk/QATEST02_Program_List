@@ -1,0 +1,159 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. NESTED99.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       LINKAGE SECTION.
+       01 X_X       PIC S9(3)V99.
+       01 X_X_X     PIC S9(3)V99.
+       01 X_X_X_X   PIC IS X.
+       PROCEDURE DIVISION USING  X_X                                       -
+                                 X_X_X X_X_X_X.
+
+           CALL "NESTED98A" USING X_X X_X_X X_X_X_X.
+
+           Stop Run.
+       End Program NESTED99.
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       ID DIVISION. PROGRAM-ID. NESTED98A.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       LINKAGE SECTION.
+       01 X_X       PIC S9(3)V99.
+       01 X_X_X     PIC S9(3)V99.
+       01 X_X_X_X   PIC IS X.
+
+       PROCEDURE DIVISION Using  X_X
+                                 X_X_X
+                                 X_X_X_X.
+
+           IF X_X_X_X = '+'
+              COMPUTE X_X = X_X + X_X_X
+           END-IF
+           CALL "NESTED98S" USING X_X X_X_X X_X_X_X.
+           Exit Program.
+
+       End Program NESTED98A.
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. NESTED98S.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       LINKAGE SECTION.
+       01 X_X        PIC S9(3)V99.
+       01 X_X_X      PIC S9(3)V99.
+       01 X_X_X_X    PIC IS X.
+
+       PROCEDURE DIVISION Using  X_X,
+                                 X_X_X,
+                                 X_X_X_X.
+
+           IF X_X_X_X = '-'
+              COMPUTE X_X = X_X - X_X_X
+           END-IF
+
+           CALL "NESTED98M" USING X_X X_X_X X_X_X_X.
+           Exit Program.
+       End Program NESTED98S.
+
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       ID DIVISION. PROGRAM-ID. NESTED98M.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       LINKAGE SECTION.
+       01 X_X       PIC S9(3)V99.
+       01 X_X_X     PIC S9(3)V99.
+       01 X_X_X_X   PIC IS X.
+
+       PROCEDURE DIVISION Using  X_X
+                                 X_X_X
+                                 X_X_X_X.
+
+           IF X_X_X_X = '*'
+              COMPUTE X_X = X_X * X_X_X
+           END-IF
+
+           CALL "NESTED98D" USING X_X X_X_X X_X_X_X.
+           Exit Program.
+       End Program NESTED98M.
+
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       ID DIVISION. PROGRAM-ID. NESTED98D.
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       LINKAGE SECTION.
+       01 X_X       PIC S9(3)V99.
+       01 X_X_X     PIC S9(3)V99.
+       01 X_X_X_X   PIC IS X.
+
+       PROCEDURE DIVISION Using  X_X
+                                 X_X_X
+                                 X_X_X_X.
+
+           IF X_X_X_X = '/'
+              COMPUTE X_X = X_X / X_X_X
+           END-IF
+
+           Exit Program.
+
+       End Program NESTED98D.

@@ -1,0 +1,26 @@
+       LINKAGE SECTION.
+      *
+         77 DUE-DATE PIC $$$$.99.
+         77 DOT-DATE PIC $$$9.99.
+         01 LS-99 PIC IS $,$$$,999.99.
+      *
+         01 LS-98 PIC IS +,+++,999.99.
+         01 LS-97 PIC IS $$,$$$,$$$.99CR.
+         01 B-98 PIC IS ++,+++,+++.+++.
+      *
+         01 B-x7 PICture IS X(10)/XX.
+      *
+         01 B-96 PIC X(5)BX(7).
+      *
+         01 B-95 PICture 99,B999,B000.
+         01 B-94 PIC IS *,***.**+.
+      *
+         01 B-93 PIC IS $Z,ZZZ,ZZZ.ZZCR.
+      *
+         01 B-92 PIC IS $B*,***,***.**BBDB.
+      *
+         01 B-99 PICTURE 99.
+      *
+         01 C-99 Picture is xxXXxx.
+      *
+         01 A-99 PICTURE S99 USAGE COMPUTATIONAL-4.

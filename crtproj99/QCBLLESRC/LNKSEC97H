@@ -1,0 +1,31 @@
+       LINKAGE SECTION.
+         01 LS-99-A.
+            02 LS-98 PIC XX.
+            02 LS-97 LIKE LS-98.
+            02.
+               03       PIC X(4).
+               03 LS_97 LIKE LS-98 OF LS-99-A.
+               03       PIC XX.
+
+         01 PIC99.
+            02 LS-99-C.
+               03                 PIC XXXX.
+            02 LS-99-D.
+               03 A               PIC IS XX.
+            02 LS-99-E.
+               03 B               PICTURE IS XX.
+            02 LS-99-F.
+               03                 PIC IS XX.
+
+         01 PIC98.
+            03 WS-NUM.
+                  04 A                  PIC IS XX.
+                  04                    PICTURE XX.
+                  04                    PICTURE IS X.
+                  04 B                  PIC IS X.
+            03 WS-CHAR.
+                  04                    PIC X(2).
+                  04 C                  PIC X(2).
+                  04 D                  PICTURE IS X.
+                  04                    PIC X.
+            66 LS-RENAME RENAMES A THRU D.

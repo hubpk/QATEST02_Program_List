@@ -1,0 +1,18 @@
+       LINKAGE SECTION.
+         01 LS-99-A.
+               03 LS-98 PIC XX.
+               03 LS-97 LIKE LS-98.
+
+         01 YYYYXXXX.
+               03       PIC X(4).
+               03 LS_97 LIKE LS-98 OF LS-99-A.
+               03       PIC XX.
+
+         01 PIC99.
+            02 LS-99-C PIC 9(3).
+
+         01 PIC98.
+            02 LS-99-D PIC 9(3) USAGE COMPUTATIONAL-3.
+
+         77 LVL-99 LIKE PIC99.
+         77 LVL-98 LIKE PIC98.

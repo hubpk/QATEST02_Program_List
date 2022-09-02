@@ -1,0 +1,30 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IUNCBL96.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+      *COPY FSEC99.
+       COPY LnkSec96.
+
+       PROCEDURE DIVISION Using  ArrTbl99
+                                 ArrTbl98.
+      *                          ws-Fld03.
+           Set I J to 1.
+           Display AT-99-B(I,J).
+           Display AT-98-B(1,1).
+      *    move 'hello' to ws-Fld99.
+           Exit Program.
+
+       End Program IunCbl96.

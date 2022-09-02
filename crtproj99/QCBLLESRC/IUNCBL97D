@@ -1,0 +1,29 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IUNCBLXX.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       COPY WRKSTG97D.
+       COPY LNKSEC97D.
+
+       PROCEDURE DIVISION USING LS-99-A LS-99-B PIC99 PIC98
+                                LVL-99               LVL-98.
+
+           Display LVL-99.
+           Display LVL-98.
+           Display LS_97 of LS-99-B.
+           Exit Program.
+
+       End Program IunCblXX.

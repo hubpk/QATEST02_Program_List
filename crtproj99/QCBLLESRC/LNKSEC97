@@ -1,0 +1,17 @@
+       LINKAGE SECTION.
+         01 NRM_DS.
+           02  ws-Fld99  pic x(20).
+           02  ws-Fld98  pic x(7).
+           02  ws-Fld97  pic x(3).
+           02  ws-Fld96.
+             03 ws-Fld95  pic s9(11)v99.
+             03 ws-Fld94  pic s9(9)v99   comp-3.
+             03.
+                04 ws-Fld93    pic x(3).
+                04 ws-Fld92    pic s9(9)v99   comp-3.
+         01 IND-DS.
+           05  ws-EOF-Flag      pic x.
+               88  ws-EOF              value '1'.
+           05  ws-1st-Time-Flag pic x.
+               88  ws-1st-Time         value space.
+               88  ws-Next-Time        value 'N'.

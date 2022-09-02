@@ -1,0 +1,40 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IUNCBL97L.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       Linkage section.
+       01 WS-FLD1.
+           05 WS-FLD11.
+             10 WS-FLD111A     PICTURE XX.
+             10 WS-FLD111B     PICTURE XX.
+           05 WS-FLD12       PICTURE IS X.
+       01 WS-FLD2.
+           05 WS-FLD11.
+             10 WS-FLD111C     PICTURE XX.
+             10 WS-FLD111D     PICTURE XX.
+           05 WS-FLD12       PICTURE IS X.
+
+       PROCEDURE DIVISION using WS-FLD1 WS-FLD2.
+
+           Display WS-FLD11 of WS-FLD1.
+           Display WS-FLD12 of WS-FLD1.
+
+           Display WS-FLD11 of WS-FLD2.
+           Display WS-FLD12 of WS-FLD2.
+
+           Exit Program.
+
+       End Program IunCbl97L.

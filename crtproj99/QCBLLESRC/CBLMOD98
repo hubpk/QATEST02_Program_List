@@ -1,0 +1,147 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CBLMOD98.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+      *COPY LclStg97.
+       COPY LnkSec97 SUPPRESS.
+
+       PROCEDURE DIVISION Using  Nrm_Ds
+                                 Ind-Ds.
+
+           Display Nrm_Ds.
+           Display Ind-Ds.
+      *    Display ws-1st-Time-Flag.
+           Exit Program.
+
+       End Program CBLMOD98.
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CBLMOD98A.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+      ** Using Customer file
+           SELECT CUSTOMER-FILE  ASSIGN  TO DATABASE-CUSTOMEX
+                  ORGANIZATION  IS SEQUENTIAL
+                  ACCESS        IS SEQUENTIAL.
+      *           FILE STATUS   IS ST-CUST.
+
+       DATA DIVISION.
+      *COPY FILSEC99.
+       COPY LCLSTG99.
+       COPY LNKSEC99.
+
+       PROCEDURE DIVISION Using  CUSTREC.
+            Display CuId of CUSTREC.
+      *    Display CuMod of CUSTREC.
+      *    Display CucRea of CUSTREC.
+           Exit Program.
+
+       End Program CBLMOD98A.
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       PROGRAM-ID. CBLMOD98B.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          Copy IoSec99.
+
+       DATA DIVISION.
+      *COPY FILSEC99.
+          COPY LCLSTG99.
+          COPY LNKSEC98.
+
+       PROCEDURE DIVISION Using  CustRec Ls-Variable-99 ArtRec.
+           Display CuId of CUSTREC.
+           Display Ls-Variable-99.
+           Display Arid of ArtRec.
+           Exit Program.
+
+       End Program CBLMOD98B.
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       ID DIVISION.
+       PROGRAM-ID. CBLMOD98C.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+      *COPY FSEC99.
+       COPY LnkSec96.
+
+       PROCEDURE DIVISION Using  ArrTbl99
+                                 ArrTbl98.
+      *                          ws-Fld03.
+           Set I J to 1.
+           Display AT-99-B(I,J).
+           Display AT-98-B(1, 1).
+      *    move 'hello' to ws-Fld99.
+           Exit Program.
+
+       End Program CBLMOD98C.
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       ID DIVISION. PROGRAM-ID. CBLMOD98D.
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       COPY LclStg96A.
+       COPY LnkSec96A.
+
+       PROCEDURE DIVISION Using  ArrTbl99
+                                 ArrTbl98.
+      *                          ws-Fld03.
+           Set I J to 1.
+            Display AT-99-B(I, J).
+            Display AT-98-B(1,1).
+      *    move 'hello' to ws-Fld99.
+           Exit Program.
+
+       End Program CBLMOD98D.

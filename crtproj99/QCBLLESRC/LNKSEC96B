@@ -1,0 +1,13 @@
+       LINKAGE SECTION.
+        01 WS-VAR-87A COMP PIC 99.
+        01 ArrTbl99.
+           02 AT-99 OCCURS 0 TO 3 TIMES DEPENDING ON WS-VAR-87A.
+             10 AT-99-A PIC A(2).
+              10 AT-99-B OCCURS 2.
+                 15 AT-99-C PIC X(3).
+        01 ArrTbl98.
+           05 AT-98 OCCURS 3 TIMES.
+              10 AT-98-A PIC A(2).
+              10 AT-98-B OCCURS 2.
+                 15 AT-98-C PIC X(3).
+           05 WS-VAR-94 PIC 999.

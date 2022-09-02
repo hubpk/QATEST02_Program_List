@@ -1,0 +1,36 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IUNCBLXX.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+      *COPY LclStg97.
+       Working-storage section.
+       01 var1  pic -9(5).
+       COPY LnkSec97A.
+
+       PROCEDURE DIVISION Using  Nrm_Ds
+                                 Cpx-Ds
+                                 var99.
+           Display Nrm_Ds.
+           Display WS-VAR-91 of ws-nrm-ds.
+           Display WS-VAR-97 of ws-nrm-ds.
+           Display WS-VAR-90 of lnk-99.
+           Display WS-num2   of nrm_ds.
+           Display Cpx-Ds.
+           Display var1.
+      *    Display ws-1st-Time-Flag.
+           Exit Program.
+
+       End Program IunCblXX.

@@ -1,0 +1,68 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CBLMOD96.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+          SPECIAL-NAMES.
+      *        LINKAGE TYPE IS PROCEDURE FOR 'CBLMOD98A'
+      *        LINKAGE TYPE PRC FOR 'CBLMOD98B' USING ALL DESCRIBED
+               LINKAGE TYPE IS PROCEDURE FOR "NESTED98M".
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+
+        01 CustRec.
+          COPY DDS-ALL-FORMATS OF CUSTOMER.
+
+        01 Ls-Variable-99 PIC XXBXXBXX.
+
+        01 ArtRec.
+          COPY DDS-ALL-FORMATS OF Article.
+
+        01 ArrTbl99.
+           05 AT-99 OCCURS 3 TIMES INDEXED BY I.
+              10 AT-99-A PIC A(2).
+              10 AT-99-B OCCURS 2 TIMES INDEXED BY J.
+                 15 AT-99-C PIC X(3).
+        01 ArrTbl98.
+           05 AT-98 OCCURS 3 TIMES.
+              10 AT-98-A PIC A(2).
+              10 AT-98-B OCCURS 2 TIMES.
+                 15 AT-98-C PIC X(3).
+
+        01 X_X       PIC S9(3)V99.
+        01 X_X_X     PIC S9(3)V99.
+        01 X_X_X_X   PIC IS X.
+
+        LINKAGE SECTION.
+        01 XXXX PIC XXXX.
+        01 YYYY PIC 9999.
+
+       PROCEDURE DIVISION USING XXXX YYYY.
+
+      * Addition Procedure
+      *    CALL "CBLMOD98A" Using CustRec.
+      * Substraction Procedure
+      *    CALL "CBLMOD98B" Using                              CustRec     -
+      *                                                   Ls-Variable-99   -
+      *                                                         ArtRec.
+      * Multiplication Procedure
+           MOVE 6 TO X_X.
+           MOVE 4 TO X_X_X.
+           MOVE '*' TO X_X_X_X.
+           CALL "NESTED98M" Using  X_X X_X_X X_X_X_X.
+
+           STOP RUN.
+           Exit Program.
+
+       End Program CBLMOD96.

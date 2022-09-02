@@ -1,0 +1,25 @@
+       LINKAGE SECTION.
+         01 NRM_DS.
+            02 WS-NUM1 PIC S9(3)V9(2).
+            02 WS-NUM2 PIC PPP999.
+            02 WS-NUM3 PIC S9(3)V9(2).
+            02 WS-Nrm-Ds.
+               03 WS-VAR-99 PIC 9(4)V99.
+               03 WS-VAR-98 PIC 9(4).99.
+               03 WS-VAR-97 PIC ZZ99.99.
+               03 WS-VAR-96 PIC 99B99B99.
+               03.
+                  04 WS-VAR-92 PIC ZZZZZZZ.
+                  04 WS-VAR-91 PIC 99/99/99.
+            05 LNK-99.
+               06 WS-VAR-90 PIC +9(5).
+               06 WS-VAR-89 PIC 9(5)+.
+
+         01 CPX-DS.
+            02 LNk-99.
+               05  ws-EOF-Flag      pic x.
+                   88  ws-EOF              value '1'.
+               05  ws-1st-Time-Flag pic x.
+                   88  ws-1st-Time         value space.
+                   88  ws-Next-Time        value 'N'.
+         01 var99 pic +9(5).

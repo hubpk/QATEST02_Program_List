@@ -1,0 +1,32 @@
+        Process VarChar
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IUNCBLXX.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       COPY LclStg96A.
+       COPY LnkSec96D.
+
+       PROCEDURE DIVISION Using  ArrTbl99
+                                 ArrTbl98
+                                 WS-VAR-87A.
+      *    Set I J to 1.
+           Display AT-99-B(1, 1).
+           Display AT-98-B(1, 1).
+           Display AT-99(1).
+           DISPLAY  WS-VAR-87A.
+           Exit Program.
+
+       End Program IunCblXX.

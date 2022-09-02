@@ -1,0 +1,232 @@
+       PROCESS DATETIME.
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. TSTCBL24 IS INITIAL.
+       AUTHOR.         RITESH GUPTA.
+       DATE-WRITTEN.   28 Feb. 2021.
+
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+       SOURCE-COMPUTER. IBM-AS400.
+       OBJECT-COMPUTER. IBM-AS400.
+
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+       DATA DIVISION.
+       FILE SECTION.
+
+       WORKING-STORAGE SECTION.
+       01  UWVAR1                            PIC 9(2) VALUE 20 .
+       01  UWVAR2                            PIC 9(2) VALUE 10.
+       01  UWRESULT                          PIC 9(3).
+       01  UWRESULT1                         PIC 9(3).
+       01  UWRESULT2                         PIC 9(3).
+       01  UWRESULT3                         PIC X(5).
+       01  RTNAREACD.
+          02.
+             03 WS-AREA.
+               04 WS-AREA_OF_ADD-01 pic 9(2).
+               04 WS-AREA_OF_PIN-02 pic 9(2).
+
+       01  RTN-USR-INFO.
+          02 FIRST-LEVEL_OF_INFO OCCURS 3 TIMES INDEXED BY I.
+             03 USR-FIRST-NAME PIC X(10).
+             03 SECOND_LEVEL_OF-INFO OCCURS 3 TIMES INDEXED BY J.
+                04 USR-LAST-NAME PIC X(10).
+                04 THIRD-LEVEL-OF-INFO OCCURS 3 TIMES INDEXED BY K.
+                   05 USR-AREA-NUMBER-01 PIC 9(5).
+                   05 USR-PIN-NUMBER-02  PIC 9(5).
+
+       PROCEDURE DIVISION.
+      *‚Addition Procedure
+           CALL "TSTCBL24A" USING UWVAR1
+                                  UWVAR2.
+      *‚Substraction Procedure
+           CALL "TSTCBL24B" USING UWVAR1 UWVAR2.
+
+      *‚Multiplication Procedure
+           CALL "TSTCBL24C" USING UWVAR1
+                                  UWVAR2.
+      *‚Division Procedure
+           CALL "TSTCBL24D" USING UWVAR1
+                                  UWVAR2.
+      *‚Return Area code
+           CALL "TSTCBL24E" USING UWVAR1
+                                  UWVAR2.
+      *‚Return user details
+           CALL "TSTCBL24F" USING UWVAR1
+                            UWVAR2.
+           STOP RUN.
+
+       END PROGRAM TSTCBL24.
+
+      *‚Addition Procedure TSTCBL24A
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.     TSTCBL24A.
+       AUTHOR.         RITESH GUPTA.
+       DATE-WRITTEN.   28 Feb. 2021.
+
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+       DATA DIVISION.
+       FILE SECTION.
+
+       WORKING-STORAGE SECTION.
+       01  UWRESULT                          PIC 9(3).
+
+       LINKAGE
+             SECTION.
+       01  UWVAR1                            PIC 9(2).
+       01  UWVAR2                            PIC 9(2).
+
+       PROCEDURE DIVISION
+                          USING UWVAR1 UWVAR2 GIVING UWRESULT.
+           COMPUTE UWRESULT = UWVAR1 + UWVAR2.
+           EXIT PROGRAM.
+       END PROGRAM TSTCBL24A.
+
+      *‚Substraction Procedure TSTCBL24B
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.     TSTCBL24B.
+       AUTHOR.         RITESH GUPTA.
+       DATE-WRITTEN.   28 Feb. 2021.
+
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+       DATA DIVISION.
+       FILE SECTION.
+
+       WORKING-STORAGE SECTION.
+       01  UWRESULT                          PIC 9(3).
+
+       LINKAGE SECTION.
+       01  UWVAR1                            PIC 9(2).
+       01  UWVAR2                            PIC 9(2).
+
+       PROCEDURE DIVISION USING UWVAR1 BY VALUE UWVAR2 GIVING UWRESULT.
+           COMPUTE UWRESULT = UWVAR1 - UWVAR2.
+           EXIT PROGRAM.
+       END PROGRAM TSTCBL24B.
+
+      *‚Multiplication Procedure TSTCBL24C
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.     TSTCBL24C.
+       AUTHOR.         RITESH GUPTA.
+       DATE-WRITTEN.   28 Feb. 2021.
+
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+       DATA DIVISION.
+       FILE SECTION.
+
+       WORKING-STORAGE SECTION.
+       01  UWRESULT                          PIC 9(3).
+
+       LINKAGE SECTION.
+       01  UWVAR1                            PIC 9(2).
+       01  UWVAR2                            PIC 9(2).
+
+       PROCEDURE DIVISION USING BY REFERENCE UWVAR1
+                                UWVAR2 GIVING UWRESULT.
+           COMPUTE UWRESULT = UWVAR1 * UWVAR2.
+           EXIT PROGRAM.
+       END PROGRAM TSTCBL24C.
+
+      *‚Division Procedure TSTCBL24D
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.     TSTCBL24D.
+       AUTHOR.         RITESH GUPTA.
+       DATE-WRITTEN.   28 Feb. 2021.
+
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+       DATA DIVISION.
+       FILE SECTION.
+
+       WORKING-STORAGE SECTION.
+       01  UWRESULT                          PIC X(5).
+
+       LINKAGE SECTION.
+       01  UWVAR1                            PIC 9(2).
+       01  UWVAR2                            PIC 9(2).
+
+       PROCEDURE DIVISION USING BY REFERENCE UWVAR1
+                 BY VALUE  UWVAR2 GIVING UWRESULT.
+           MOVE 'HELLO' TO UWRESULT.
+           EXIT PROGRAM.
+       END PROGRAM TSTCBL24D.
+
+      *‚Return Area Code TSTCBL24E
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.     TSTCBL24E.
+       AUTHOR.         RITESH GUPTA.
+       DATE-WRITTEN.   28 Feb. 2021.
+
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+       DATA DIVISION.
+       FILE SECTION.
+
+       WORKING-STORAGE SECTION.
+       01  UWRESULT                          PIC 9(3).
+       01  RTNAREACD-01.
+          02.
+             03 WS-AREA.
+               04 WS-AREA_OF_ADD-01 pic 9(2).
+               04 WS-AREA_OF_PIN-02 pic 9(2).
+
+
+       LINKAGE SECTION.
+       01  UWVAR1                            PIC 9(2).
+       01  UWVAR2                            PIC 9(2).
+
+       PROCEDURE DIVISION USING BY REFERENCE UWVAR1
+                                UWVAR2 GIVING RTNAREACD-01.
+           COMPUTE WS-AREA_OF_ADD-01 = UWVAR1 + 10.
+           COMPUTE WS-AREA_OF_PIN-02 = UWVAR2 +  5.
+           EXIT PROGRAM.
+       END PROGRAM TSTCBL24E.
+
+      *‚Fill user details  TSTCBL24F
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.     TSTCBL24F.
+       AUTHOR.         RITESH GUPTA.
+       DATE-WRITTEN.   28 Feb. 2021.
+
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+       DATA DIVISION.
+       FILE SECTION.
+
+       WORKING-STORAGE SECTION.
+       01  UWRESULT                          PIC 9(3).
+       01  RTN-USR-INFO.
+          02 FIRST-LEVEL_OF_INFO OCCURS 3 TIMES INDEXED BY I.
+             03 USR-FIRST-NAME PIC X(10).
+             03 SECOND_LEVEL_OF-INFO OCCURS 3 TIMES INDEXED BY J.
+                04 USR-LAST-NAME PIC X(10).
+                04 THIRD-LEVEL-OF-INFO OCCURS 3 TIMES INDEXED BY K.
+                   05 USR-AREA-NUMBER-01 PIC 9(5).
+                   05 USR-PIN-NUMBER-02  PIC 9(5).
+
+
+       LINKAGE SECTION.
+       01  UWVAR1                            PIC 9(2).
+       01  UWVAR2                            PIC 9(2).
+
+       PROCEDURE DIVISION USING BY REFERENCE UWVAR1
+                 BY VALUE  UWVAR2 GIVING RTN-USR-INFO.
+           MOVE 'PRANAV' TO USR-FIRST-NAME(I).
+           MOVE 'KUMAR'  TO USR-LAST-NAME(I, J).
+           MOVE UWVAR1   TO USR-AREA-NUMBER-01(I, J, K).
+           MOVE UWVAR2   TO USR-PIN-NUMBER-02(I, J, K).
+
+           EXIT PROGRAM.
+       END PROGRAM TSTCBL24F.
+

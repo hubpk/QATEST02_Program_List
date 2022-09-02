@@ -1,0 +1,59 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IUNCBLXX.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+         01 WS-A-99    PIC     IS S9(3)V9(2).
+         01 WS-A-98    PICTURE    A(6).
+         01 WS-A-97    TYPEDEF PICTURE IS X(5).
+         01 WS-A-96    TYPEDEF PIC  9(4)V99.
+         01 WS-A-92    TYPEDEF PIC  XX.
+         01 WS-A-95    PIC        9(4).99.
+         01 WS-A-94    PIC        ZZ99.99.
+         01 WS-A-93    PIC        99.
+         01 WS-A-91    PIC        ZZZZZZZ.
+         01 WS-A-90    PIC        AA.
+
+       LINKAGE SECTION.
+         01 LS-99-A.
+            02 LS-98 PIC XX.
+            02 LS-97 LIKE LS-98.
+            02.
+               03       PIC X(4).
+               03 LS_97 LIKE LS-98 OF LS-99-A.
+               03       PIC XX.
+         01 PIC99.
+            02 LS-99-C TYPE WS-A-96.
+            02 LS-99-D.
+               03         TYPE WS-A-96.
+               03 LS-99-F TYPE WS-A-97.
+         01 PIC98.
+            03 WS-NUM IS TYPEDEF.
+               04 A  TYPE WS-A-92.
+               04         PICTURE XX.
+               04         PICTURE IS X.
+               04 B  TYPE WS-A-97.
+
+       PROCEDURE DIVISION USING LS-99-A PIC99 PIC98.
+
+           Display LS-99-C of Pic99.
+      *    Display LS-99-E of Pic99.
+           Display LS-99-F of Pic99.
+           Display B of PIC98.
+
+           Exit Program.
+
+       End Program IunCblXX.

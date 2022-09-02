@@ -1,0 +1,11 @@
+       LINKAGE SECTION.
+        01 ArrTbl99.
+           05 AT-99 OCCURS 3 TIMES INDEXED BY I.
+              10 AT-99-A PIC A(2).
+              10 AT-99-B OCCURS 2 TIMES INDEXED BY J.
+                 15 AT-99-C PIC X(3).
+        01 ArrTbl98.
+           05 AT-98 OCCURS 3 TIMES.
+              10 AT-98-A PIC A(2).
+              10 AT-98-B OCCURS 2 TIMES.
+                 15 AT-98-C PIC X(3).

@@ -1,0 +1,9 @@
+       LINKAGE SECTION.
+
+         01 LS-99 PIC -Z(6).9(2).
+         01 LS-98 PICTURE ZZZBZZZBVZZZ.
+         01 LS-97 PICTURE ----,---.99.
+         01 LS-96 PICTURE +$$B,$$$.
+         01 LS-95 PICTURE XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX               .
+
+

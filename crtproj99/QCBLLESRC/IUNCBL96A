@@ -1,0 +1,31 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IUNCBLXX.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       COPY LclStg96A.
+       COPY LnkSec96A.
+
+       PROCEDURE DIVISION Using  ArrTbl99
+                                 ArrTbl98.
+      *                          ws-Fld03.
+           Set I J to 1.
+           Display AT-99-B(I,J).
+           Display AT-98-B(1, 1).
+           Display WS-VAR-87A of arrtbl99.
+      *    move 'hello' to ws-Fld99.
+           Exit Program.
+
+       End Program IunCblXX.

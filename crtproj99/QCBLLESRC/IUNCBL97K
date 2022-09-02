@@ -1,0 +1,29 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IUNCBLXX.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+      *COPY LclStg97.
+       COPY LnkSec97 SUPPRESS replacing "NRM_DS" By "NRM-DS".
+
+       PROCEDURE DIVISION Using  Nrm_Ds
+                                 Ind-Ds.
+
+           Display Nrm_Ds.
+           Display Ind-Ds.
+      *    Display ws-1st-Time-Flag.
+           Exit Program.
+
+       End Program IunCblXX.

@@ -1,0 +1,48 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. IUNCBL97M.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 RETN-VAL PIC S9(8) USAGE COMP-4.
+
+       Linkage section.
+       01 PARM-LIST.
+          05 EMPL OCCURS 5 TIMES.
+             10 NAMES PIC A(20).
+             10 ADDRESSES PIC X(60).
+             10 PHN-NUM PIC 9(11) DISPLAY.
+          05 NUM-1A PIC S9(5)V9(3) PACKED-DECIMAL.
+          05 NUM-2A PIC 9(5)V9(3) COMP.
+          05 TAB-NUM-3A PIC S9(5)V9(3) COMP OCCURS 10 TIMES.
+          05 NUM-4A PIC 9(5)V9(3) USAGE NATIONAL.
+          05 NUM-5A PIC S9(5)V9(3) COMP-3.
+          05 NUM-6A PIC 9(4) BINARY.
+          05 NUM-7A COMP-1.
+          05 NUM-8A COMP-2.
+          05 NAT-9A PIC N(10) NATIONAL.
+      ***************************************************************
+      * Test PCML for arrays of basic supported types.
+      ***************************************************************
+       PROCEDURE DIVISION USING BY REFERENCE PARM-LIST
+              GIVING RETN-VAL.
+       MAIN-LINE.
+           MOVE 1 TO RETN-VAL.
+           DISPLAY "THIS PGM TO BE CALLED BY A JAVA PGM".
+           DISPLAY NAT-9A OF PARM-LIST.
+           DISPLAY NUM-4A OF PARM-LIST.
+           STOP RUN.
+
+       End Program IunCbl97M.

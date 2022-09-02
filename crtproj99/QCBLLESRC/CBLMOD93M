@@ -1,0 +1,132 @@
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CBLMOD93M.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 RETN-VAL PIC S9(3)V9(2) PACKED-DECIMAL.
+
+       Linkage section.
+       01 NUM-1A PIC S9(3)V9(2) PACKED-DECIMAL.
+       01 NUM-2A PIC S9(3)V9(2) PACKED-DECIMAL.
+      ***************************************************************
+      * Test PCML for arrays of basic supported types.
+      ***************************************************************
+       PROCEDURE DIVISION USING BY REFERENCE NUM-1A NUM-2A
+              GIVING RETN-VAL.
+       MAIN-LINE.
+           COMPUTE RETN-VAL = NUM-1A * NUM-2A.
+           GOBACK.
+
+       End Program CBLMOD93M.
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. "ADDITION_OF_TWO_VARIABLES".
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 RETN-VAL PIC S9(3)V9(2) PACKED-DECIMAL.
+
+       Linkage section.
+       01 NUM-1A PIC S9(3)V9(2) PACKED-DECIMAL.
+       01 NUM-2A PIC S9(3)V9(2) PACKED-DECIMAL.
+      ***************************************************************
+      * Test PCML for arrays of basic supported types.
+      ***************************************************************
+       PROCEDURE DIVISION USING BY REFERENCE NUM-1A NUM-2A
+              GIVING RETN-VAL.
+       MAIN-LINE.
+           COMPUTE RETN-VAL = NUM-1A / NUM-2A.
+           GOBACK.
+
+       End Program CBLMOD93D.
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CBLMOD93A.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 RETN-VAL PIC S9(3)V9(2) PACKED-DECIMAL.
+
+       Linkage section.
+       01 NUM-1A PIC S9(3)V9(2) PACKED-DECIMAL.
+       01 NUM-2A PIC S9(3)V9(2) PACKED-DECIMAL.
+      ***************************************************************
+      * Test PCML for arrays of basic supported types.
+      ***************************************************************
+       PROCEDURE DIVISION USING BY REFERENCE NUM-1A NUM-2A
+              GIVING RETN-VAL.
+       MAIN-LINE.
+           COMPUTE RETN-VAL = NUM-1A + NUM-2A.
+           GOBACK.
+
+       End Program CBLMOD93A.
+      **************************************************************************
+      *  Company : Arcad                                                       *
+      *                                                                        *
+      *  Author  : Pranav Kumar                                                *
+      *                                                                        *
+      **************************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. CBLMOD93S.
+
+       ENVIRONMENT DIVISION.
+         CONFIGURATION SECTION.
+          SOURCE-COMPUTER.      IBM-AS400.
+          OBJECT-COMPUTER.      IBM-AS400.
+         INPUT-OUTPUT SECTION.
+          FILE-CONTROL.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 RETN-VAL PIC S9(3)V9(2) PACKED-DECIMAL.
+
+       Linkage section.
+       01 NUM-1A PIC S9(3)V9(2) PACKED-DECIMAL.
+       01 NUM-2A PIC S9(3)V9(2) PACKED-DECIMAL.
+      ***************************************************************
+      * Test PCML for arrays of basic supported types.
+      ***************************************************************
+       PROCEDURE DIVISION USING BY REFERENCE NUM-1A NUM-2A
+              GIVING RETN-VAL.
+       MAIN-LINE.
+           COMPUTE RETN-VAL = NUM-1A - NUM-2A.
+           GOBACK.
+
+       End Program CBLMOD93S.

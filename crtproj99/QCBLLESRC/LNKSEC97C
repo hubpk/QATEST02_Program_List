@@ -1,0 +1,22 @@
+       LINKAGE SECTION.
+         01 LS-99-A.
+            02 LS_99_A.
+               03 LS-98 PIC XX.
+               03 LS-97 LIKE LS-98.
+         01 LS-99-B.
+            02 LS_99_B.
+               03 LS_98 PIC 9V99 BLANK WHEN ZERO.
+               03 LS_97 LIKE LS_98.
+
+         01 PIC99.
+            02 LS-99-C.
+               03 L1-98 PIC S999V99 SIGN IS LEADING SEPARATE.
+               03 L1-97 LIKE LS-98.
+
+         01 PIC98.
+            02.
+               03 L2-98 PIC 999(3)PP(5).
+               03 L2-97 LIKE LS-98.
+
+         01 LS-WA PIC 9(3).
+         01 LS-AA LIKE LS-WA (+3).
