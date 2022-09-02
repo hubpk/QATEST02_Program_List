@@ -1,66 +1,22 @@
-        ctl-opt NOMAIN option(*nodebugio:*srcstmt);
+        Ctl-Opt dftactgrp(*no) BndDir('QC2LE');
 
-        Dcl-Proc Cities Export;
-          Dcl-Pi *n Char(10);
-            C_Val Char(3) Value;
-          End-Pi;
+        Dcl-F QSqlSrc Disk Usage(*OutPut) Qualified;
 
-          If C_Val = 'Kan';
-            Return 'Kanpur';
-          ElseIf C_Val = 'Del';
-            Return 'Delhi';
-          ElseIf C_Val = 'Lko';
-            Return 'Lucknow';
-          ElseIf C_Val = 'Noi';
-            Return 'Noida';
-          ElseIf C_Val = 'Kol';
-            Return 'Kolkata';
-          ElseIf C_Val = 'Che';
-            Return 'Chennai';
-          ElseIf C_Val = 'Mum';
-            Return 'Mumbai';
-          ElseIf C_Val = 'Var';
-            Return 'Varanasi';
-          EndIf;
-        End-Proc;
+        Dcl-Pi *N;
+          SqlSt  Char(400);
+        End-Pi;
 
-        dcl-proc addprc export;
-          dcl-pi *n packed(5:2);
-            p_fld1 packed(5:2);
-            p_fld2 packed(5:2);
-          end-pi;
-          dcl-s p_result packed(5:2);
+        Dcl-S SqlStm Char(400);
+        Dcl-Ds Src       LikeRec(QSqlSrc.QSqlSrc);
 
-          p_result = p_fld1 + p_fld2 + 5;
-          p_fld1 = p_result;
-          return p_result;
-        end-proc;
+          SqlStm = SqlSt;
+          Src.SrcSeq = *Zero;
+          Dow %SubSt(SqlStm:1:80) <> *Blank;
+            Src.SrcSeq = Src.SrcSeq + 1;
+            Src.SrcDta = %SubSt(SqlStm:1:80);
+            SqlStm     = %SubSt(SqlStm:81:80);
 
-        dcl-proc subtract export;
-          dcl-pi *n packed(5:2);
-            p_fld1 packed(5:2);
-            p_fld2 packed(5:2);
-          end-pi;
-          dcl-s p_result packed(5:2);
-          p_result = p_fld1 - p_fld2;
-          return p_result;
-        end-proc;
+            Write QSqlSrc.QSqlSrc Src;
 
-        Dcl-Proc Division Export;
-          Dcl-Pi *n packed(5:2);
-            p_fld1 packed(5:2);
-            p_fld2 packed(5:2);
-          End-Pi;
-          Dcl-S P_Result packed(5:2);
-
-          Monitor;
-            p_result = p_fld1 / p_fld2;
-          On-Error;
-            p_result = *zero;
-          EndMon;
-            return p_result;
-        End-proc;
-
-        Dcl-proc Test1 export;
-          dsply 'Hello';
-        End-Proc;
+          EndDo;
+        *Inlr= *On;
