@@ -1,0 +1,25 @@
+      Pgm Parm(&LibName)                                                     
+      DclF MbrLst                                                          
+      Dcl &LibName *Char 10                                                
+                                                                       
+      Addlible &LibName                                                    
+      MonMsg MsgId(CPF0000)                                                
+                                                                       
+      CrtPf File(Qtemp/MbrSplf) RcdLen(150) Size(*NoMax)                   
+      MonMsg MsgId(CPF0000)                                                
+                                                                       
+      DspFd File(&LibName/QSQLSRC) Type(*Mbr) OutPut(*OutFile) +         
+                                            OutFile(Qtemp/MbrLst)      
+                                                          
+                                                                       
+      NextRecord:RcvF                                                      
+               MonMsg MsgId(CPF0864) Exec(GoTo CmdLbl(End))            
+               If (&Mbseu2 *Eq 'PF') Then(Do)                       
+                 OvrDbf File(TestTmp) ToFile(&LibName/&MbName) Mbr(*First) Share(*Yes)                                   
+               EndDo                                                       
+               
+               Call Pgm(InsertData)                                        
+               GoTo CmdLbl(NextRecord)                                     
+      End:                                                                     
+                                                                           
+      EndPgm                                                                                                                
