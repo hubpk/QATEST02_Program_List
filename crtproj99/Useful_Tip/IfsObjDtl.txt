@@ -1,0 +1,393 @@
+RTVDIRINF DIR(/) INFFILEPFX(QRYIFS) INFLIB(QGPL) OMIT('/qsys.lib' '/qntc' '/qfilesvr.400' '/qopt')
+
+RTVDIRINF takes a while to complete, so you might want to submit that to batch.  Once complete, 
+it creates and populates two tables in QGPL called QRYIFSO and QRYIFSD that contain information 
+about the objects and directories.  To get useful information from the tables, you need to perform 
+an SQL join on the two tables. 
+
+The following queries are helpful in determining what is taking up space.
+ 
+-- REPORT THE TOTAL SIZE OF ALL OBJECTS IN THE ROOT AND QOPENSYS FILE SYSTEMS
+Select (Sum(O.QEZALCSIZE) / 1048576) As Total_Size_In_MB
+   From QGPL.QRYIFSO O;
+
+ 
+-- REPORT THE SIZE OF EACH DIRECTORY IN DESCENDING ORDER (LARGEST FIRST)
+Select (Sum(O.QEZALCSIZE) / 1048576) As Directory_Size_In_MB,
+       D.QEZDIRNAM1 As Directory_Path
+   From QGPL.QRYIFSD D
+        Join QGPL.QRYIFSO O
+           On D.QEZDIRIDX = O.QEZDIRIDX
+   Group By D.QEZDIRIDX,
+            QEZDIRNAM1
+   Order By 1 Desc,
+            2;
+
+ 
+-- REPORT THE SIZE OF ALL OBJECTS IN DESCENDING ORDER OF ALLOCATED SIZE
+Select
+       Case D.QEZDIRNAM1
+          When '/' Then D.QEZDIRNAM1
+          Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+       End As "Object",
+       QEZOBJTYPE As "Object Type",
+       QEZALCSIZE As "Allocated Size"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+   Order By QEZALCSIZE Desc;
+
+ 
+-- REPORT THE SIZE (IN NUMBER OF LINKS) OF EACH DIRECTORY IN DECREASING SIZE
+Select QEZDIRNAM1 As "Path",
+       Count(*) As "Link Count"
+   From QGPL.QRYIFSO O
+        Inner Join QGPL.QRYIFSD D
+           On O.QEZDIRIDX = D.QEZDIRIDX
+   Group By QEZDIRNAM1
+   Order By Count(*) Desc;
+
+-- FIND LINKS OLDER THAN A SPECIFIED DATE
+Select D.QEZDIRNAM1 As "Parent Directory",
+       QEZOBJNAM As "Object Name",
+       QEZOBJTYPE As "Object Type",
+       QEZCRTTIM As "Creation Datetime"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And QEZCRTTIM < '2017-03-04 00:00:00.000000';
+
+ 
+-- FIND LINKS NEWER THAN A SPECIFIED DATE
+Select D.QEZDIRNAM1 As "Parent Directory",
+       QEZOBJNAM As "Object Name",
+       QEZOBJTYPE As "Object Type",
+       QEZCRTTIM As "Creation Datetime"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And QEZCRTTIM > '2018-04-04 00:00:00.000000';
+
+
+-- FIND ITEMS IN A SPECIFIC PATH THAT ARE LARGER THAN A SPECIFIED SIZE
+Select
+       Case D.QEZDIRNAM1
+          When '/' Then D.QEZDIRNAM1
+          Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+       End As "Object",
+       QEZOBJTYPE As "Object Type",
+       QEZALCSIZE As "Allocated Size (Bytes)",
+       QEZDTASIZE As "Object Size (Bytes)"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And Ucase(
+            Case D.QEZDIRNAM1
+               When '/' Then D.QEZDIRNAM1
+               Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+            End) Like Ucase('/QIBM/PRODDATA/ACCESS/ACS/%') -- Modify this path accordingly
+         And QEZDTASIZE > 10000;
+
+
+-- FIND ALL SYMBOLIC LINKS
+Select
+       Case D.QEZDIRNAM1
+          When '/' Then D.QEZDIRNAM1
+          Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+       End As "Object",
+       QEZOBJTYPE As "Object Type",
+       QEZALCSIZE As "Allocated Size",
+       QEZDTASIZE As "Object Size (Bytes)",
+       QEZCRTTIM As "Creation Datetime",
+       QEZACCTIM As "Last Access Datetime",
+       QEZCHGTIMA As "Last Attribute Change Datetime",
+       QEZCHGTIMD As "Last Data Change Datetime",
+       QEZSTGFREE As "Data Available Offline",
+       QEZCHKOUT As "Object Checked Out",
+       QEZCHKOWN As "User With Object Checked Out",
+       QEZCHKTIM As "Checked Out Datetime",
+       QEZLOCAL As "Object Stored Locally",
+       QEZOWN As "Object Owner",
+       QEZUID As "User ID",
+       QEZOWNPGP As "Primary Group User",
+       QEZGID As "Group ID Number",
+       QEZAUTLST As "Authorization List",
+       QEZASP As "ASP",
+       QEZJRNSTS As "Journaling Status of Object",
+       QEZJSUBTRE As "Journaling Subtree Semantics",
+       QEZJOPTENT As "Optional Journal Entries",
+       QEZJAFTERI As "Object Image After a Change is Journaled",
+       QEZJBEFORI As "Object Image Before a Change is Journaled",
+       QEZJRNID As "ID for Object Being Journaled",
+       QEZJRNNAM As "Journal Name",
+       QEZJRNLIB As "Journal Library Name",
+       QEZJRNSTR As "Last Date and Time Journaling",
+       QEZAUDT As "Auditing Value for Object",
+       QEZBLKSIZ As "Object Block Size",
+       QEZNLNK As "Number of Hard Links to Object",
+       QEZFILEID As "File ID for Object",
+       QEZFILEIDS As "File System Unique Object ID",
+       QEZGENID As "Generation ID for File ID",
+       QEZFSID As "File System ID for Object",
+       QEZRDEV As "Real Device Special File",
+       QEZDOM As "Domain of Object",
+       QEZCRTAUD As "Auditing Value for Object in the Directory",
+       QEZSCN As "Object Scan",
+       QEZINHSCN As "Object Inherit Scan",
+       QEZSSTATUS As "Object Scan Status",
+       QEZSSIGDF As "Object Scan Signature",
+       QEZSBINARY As "Scanned in Binary Mode",
+       QEZSCCSID1 As "Object Scanned in the Listed CCSID1",
+       QEZSCCSID2 As "Object Scanned in the Listed CCSID2",
+       QEZUDATE As "Datetime Object Last Used",
+       QEZUDCOUNT As "Number of Days Object Has Been Used",
+       QEZURESET As "Datetime the Days Used Count was Last Reset to Zero",
+       QEZPRMLNK As "Object First Name Found",
+       QEZALWCKPW As "Stream File Can Be Shared with Readers and Writers",
+       QEZSIG As "Object has i5/OS Digital Signature",
+       QEZSYSSIG As "Signed by Trusted Source",
+       QEZMLTSIG As "More Than One i5/OS Digital Signature",
+       QEZDSTGOPT As "Auxiliary Storage Allocated",
+       QEZMSTGOPT As "Main Storage Allocated",
+       QEZDIRTYP2 As "Format of Directory",
+       QEZFILTYP2 As "Format of Stream File",
+       QEZUDFTYP2 As "Default File Format of Stream Files in the UDFS",
+       QEZNONSAV As "Object Can Be Saved",
+       QEZCLSTRSP As "Virtual disk drives for the xSeries servers",
+       QEZCASE As "Case Sensitivity of the file system",
+       QEZOFLOW As " Object has overflowed the ASP it resides in",
+       QEZPCREAD As "Object can be changed",
+       QEZPCHID As "Displayed using an ordinary directory listing",
+       QEZPCSYS As "Object is a system file",
+       QEZPCARC As "Object has changed since last time it was examined",
+       QEZSYSARC As "Object has changed and needs to be saved",
+       QEZJRCVNAM As "Oldest journal receiver to apply changes",
+       QEZJRCVLIB As "Library that contains the journal receiver",
+       QEZJRCVASP As "ASP name that contains the journal receiver",
+       QEZJTRNI As "Current state related with commitment control",
+       QEZTMPOBJ As "Object is temporary or not",
+       QEZTMPUDFS As "Objects in the UDFS are temporary or not",
+       QEZUNIT As "Preferred storage media for objects in UDFS"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And QEZOBJTYPE = '*SYMLNK';
+
+
+-- FIND ALL OF THE JAVA CORE DUMPS. UNLESS YOU NEED THESE FOR DEBUGGING A PROBLEM, THEY ARE NOT NEEDED.
+Select
+       Case D.QEZDIRNAM1
+          When '/' Then D.QEZDIRNAM1
+          Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+       End As "Object",
+       QEZOBJTYPE As "Object Type",
+       QEZALCSIZE As "Allocated Size"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And QEZOBJNAM Like 'core%.dmp'
+Union
+Select 'Total Allocated Size: ',
+       '',
+       Sum(QEZALCSIZE)
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And QEZOBJNAM Like 'core%.dmp'
+   Order By 3 Desc;
+
+-- FIND ALL OF THE STUFF IN THE TEMPORARY DIRECTORY
+Select 'Total size of junk in /tmp' As "Object",
+       '' As "Object Type",
+       Sum(QEZALCSIZE) As "Allocated Size (Bytes)",
+       Sum(QEZDTASIZE) As "Object Size (Bytes)",
+       current_date As "Creation Datetime"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And Ucase(
+            Case D.QEZDIRNAM1
+               When '/' Then D.QEZDIRNAM1
+               Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+            End) Like Ucase('/tmp/%')
+Union
+Select
+       Case D.QEZDIRNAM1
+          When '/' Then D.QEZDIRNAM1
+          Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+       End As "Object",
+       QEZOBJTYPE As "Object Type",
+       QEZALCSIZE As "Allocated Size (Bytes)",
+       QEZDTASIZE As "Object Size (Bytes)",
+       QEZCRTTIM As "Creation Datetime"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And Ucase(
+            Case D.QEZDIRNAM1
+               When '/' Then D.QEZDIRNAM1
+               Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+            End) Like Ucase('/tmp/%')
+   Order By (3) Desc;
+
+
+-- FIND ALL OF THE STUFF IN THE TEMPORARY DIRECTORY CREATED BEFORE THE LAST IPL
+-- ALL OF THESE THINGS WERE CREATED AS TEMPORARY FILES BY PROCESSES NO LONGER
+-- ON THE SYSTEM. THESE CAN ALL BE DELETED
+Select 'Total size of junk in /tmp' As "Object",
+       '' As "Object Type",
+       Sum(QEZALCSIZE) As "Allocated Size (Bytes)",
+       Sum(QEZDTASIZE) As "Object Size (Bytes)",
+       current_date As "Creation Datetime"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And Ucase(
+            Case D.QEZDIRNAM1
+               When '/' Then D.QEZDIRNAM1
+               Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+            End) Like Ucase('/tmp/%')
+         And QEZCRTTIM < (Select JOB_ENTERED_SYSTEM_TIME
+               From Table (
+                     QSYS2.JOB_INFO(JOB_STATUS_FILTER => '*ACTIVE', JOB_USER_FILTER => '*ALL')
+                  )
+               Where JOB_NAME_SHORT = 'SCPF')
+Union
+Select
+       Case D.QEZDIRNAM1
+          When '/' Then D.QEZDIRNAM1
+          Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+       End As "Object",
+       QEZOBJTYPE As "Object Type",
+       QEZALCSIZE As "Allocated Size (Bytes)",
+       QEZDTASIZE As "Object Size (Bytes)",
+       QEZCRTTIM As "Creation Datetime"
+   From QGPL.QRYIFSO O,
+        QGPL.QRYIFSD D
+   Where O.QEZDIRIDX = D.QEZDIRIDX
+         And Ucase(
+            Case D.QEZDIRNAM1
+               When '/' Then D.QEZDIRNAM1
+               Else D.QEZDIRNAM1 || '/' || QEZOBJNAM
+            End) Like Ucase('/tmp/%')
+         And QEZCRTTIM < (Select JOB_ENTERED_SYSTEM_TIME
+               From Table (
+                     QSYS2.JOB_INFO(JOB_STATUS_FILTER => '*ACTIVE', JOB_USER_FILTER => '*ALL')
+                  )
+               Where JOB_NAME_SHORT = 'SCPF')
+   Order By (3) Desc;
+
+
+--Rather than always having to perform a join, you might create a view over the tables that you can then either transfer with Access Client Solutions or export to a CSV format by using CPYTOIMPF. Here is the SQL for one possible way to create that view that gives the columns meaningful names:
+Create Or Replace View QGPL.QRYIFS As
+      Select D.QEZDIRNAM1 As "Parent Directory",
+             QEZOBJNAM As "Object Name",
+             QEZOBJLEN As "Object Name Size (Bytes)",
+             QEZNMCCSID As "Object Name CCSID",
+             QEZREGION As "Country ID",
+             QEZLANGID As "Language ID",
+             QEZMODE As "File Access Mode And Type",
+             QEZOBJTYPE As "Object Type",
+             QEZCCSID As "Data and Extended Attributes CCSID",
+             QEZALCSIZE As "Allocated Size (Bytes)",
+             QEZDTASIZE As "Object Size (Bytes)",
+             QEZEAs As "Number of Extended Attributes",
+             QEZCEAs As "Number of Critical Extended Attributes",
+             QEZEXTATRS As "Extended Attributes Size (Bytes)",
+             QEZCRTTIM As "Creation Datetime",
+             QEZACCTIM As "Last Access Datetime",
+             QEZCHGTIMA As "Last Attribute Change Datetime",
+             QEZCHGTIMD As "Last Data Change Datetime",
+             QEZSTGFREE As "Data Available Offline",
+             QEZCHKOUT As "Object Checked Out",
+             QEZCHKOWN As "User With Object Checked Out",
+             QEZCHKTIM As "Checked Out Datetime",
+             QEZLOCAL As "Object Stored Locally",
+             QEZOWN As "Object Owner",
+             QEZUID As "User ID",
+             QEZOWNPGP As "Primary Group User",
+             QEZGID As "Group ID Number",
+             QEZAUTLST As "Authorization List",
+             QEZASP As "ASP",
+             QEZJRNSTS As "Journaling Status of Object",
+             QEZJSUBTRE As "Journaling Subtree Semantics",
+             QEZJOPTENT As "Optional Journal Entries",
+             QEZJAFTERI As "Object Image After a Change is Journaled",
+             QEZJBEFORI As "Object Image Before a Change is Journaled",
+             QEZJRNID As "ID for Object Being Journaled",
+             QEZJRNNAM As "Journal Name",
+             QEZJRNLIB As "Journal Library Name",
+             QEZJRNSTR As "Last Date and Time Journaling",
+             QEZAUDT As "Auditing Value for Object",
+             QEZBLKSIZ As "Object Block Size",
+             QEZNLNK As "Number of Hard Links to Object",
+             QEZFILEID As "File ID for Object",
+             QEZFILEIDS As "File System Unique Object ID",
+             QEZGENID As "Generation ID for File ID",
+             QEZFSID As "File System ID for Object",
+             QEZRDEV As "Real Device Special File",
+             QEZDOM As "Domain of Object",
+             QEZCRTAUD As "Auditing Value for Object in the Directory",
+             QEZSCN As "Object Scan",
+             QEZINHSCN As "Object Inherit Scan",
+             QEZSSTATUS As "Object Scan Status",
+             QEZSSIGDF As "Object Scan Signature",
+             QEZSBINARY As "Scanned in Binary Mode",
+             QEZSCCSID1 As "Object Scanned in the Listed CCSID1",
+             QEZSCCSID2 As "Object Scanned in the Listed CCSID2",
+             QEZUDATE As "Datetime Object Last Used",
+             QEZUDCOUNT As "Number of Days Object Has Been Used",
+             QEZURESET As "Datetime the Days Used Count was Last Reset to Zero",
+             QEZPRMLNK As "Object First Name Found",
+             QEZALWCKPW As "Stream File Can Be Shared with Readers and Writers",
+             QEZSIG As "Object has i5/OS Digital Signature",
+             QEZSYSSIG As "Signed by Trusted Source",
+             QEZMLTSIG As "More Than One i5/OS Digital Signature",
+             QEZDSTGOPT As "Auxiliary Storage Allocated",
+             QEZMSTGOPT As "Main Storage Allocated",
+             QEZDIRTYP2 As "Format of Directory",
+             QEZFILTYP2 As "Format of Stream File",
+             QEZUDFTYP2 As "Default File Format of Stream Files in the UDFS",
+             QEZNONSAV As "Object Can Be Saved",
+             QEZCLSTRSP As "Virtual disk drives for the xSeries servers",
+             QEZCASE As "Case Sensitivity of the file system",
+             QEZOFLOW As " Object has overflowed the ASP it resides in",
+             QEZPCREAD As "Object can be changed",
+             QEZPCHID As "Displayed using an ordinary directory listing",
+             QEZPCSYS As "Object is a system file",
+             QEZPCARC As "Object has changed since last time it was examined",
+             QEZSYSARC As "Object has changed and needs to be saved",
+             QEZJRCVNAM As "Oldest journal receiver to apply changes",
+             QEZJRCVLIB As "Library that contains the journal receiver",
+             QEZJRCVASP As "ASP name that contains the journal receiver",
+             QEZJTRNI As "Current state related with commitment control",
+             QEZTMPOBJ As "Object is temporary or not",
+             QEZTMPUDFS As "Objects in the UDFS are temporary or not",
+             QEZUNIT As "Preferred storage media for objects in UDFS"
+         From QGPL.QRYIFSO O,
+              QGPL.QRYIFSD D
+         Where O.QEZDIRIDX = D.QEZDIRIDX;
+
+You could then create a CSV file on IBM i by using the CPYTOIMPF command:  CPYTOIMPF FROMFILE(QGPL/QRYIFS) TOSTMF('/QRYIFS.CSV') MBROPT(*REPLACE) RCDDLM(*CRLF) ADDCOLNAM(*SQL)
+
+At 7.3 and later releases of IBM i, you can also use SQL Service QSYS2.IFS_OBJECT_STATISTICS to get similar information. The following example SQL counts the stream file objects by subdirectory. It includes the total size of all stream files in each subdirectory and order the result by largest object count, descending.
+
+ Note: This query does not run quickly.  It is meant to be run occasionally and not during a performance critical period.
+with all_ifs_dirs as
+(select path_name as dir_path
+  from table (
+      qsys2.ifs_object_statistics(
+        start_path_name => '/',
+        subtree_directories => 'YES',
+        object_type_list => '*ALLDIR *NOQSYS',
+        ignore_errors => 'YES'
+        )) )
+ select dir_path, count(*) as stmf_count, sum(data_size) as total_size from
+  all_ifs_dirs, table ( qsys2.ifs_object_statistics(
+        start_path_name => dir_path,
+        subtree_directories => 'NO',
+        object_type_list => '*STMF',
+        ignore_errors => 'YES'
+        ))
+   group by dir_path     
+   order by 2 desc ;

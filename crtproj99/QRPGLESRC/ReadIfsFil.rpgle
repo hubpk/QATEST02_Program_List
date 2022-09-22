@@ -33,15 +33,15 @@
 
         Dcl-S FileDes int(10) ;
         Dcl-S Length int(10) ;
-        Dcl-S Data char(100) ;
-        Dcl-S Array char(100) dim(2000) ;
+        Dcl-S Data char(120) ;
+        Dcl-S Array char(120) dim(2000) ;
         Dcl-S Element packed(4:0) ;
         Dcl-S Start packed(4:0) ;
         Dcl-S End like(Start) ;
         Dcl-S EndStm like(Start) ;
         Dcl-S SqlSt  Char(400);
         Dcl-S SqlStm Char(400);
-        Dcl-S AddStm Char(100);
+        Dcl-S AddStm Char(120);
         Dcl-S Number Char(4);
         Dcl-S Inx        Packed(3:0) Inz(1);
         Dcl-S SplitWord  Char(20);
@@ -74,16 +74,19 @@
           Start = 0 ;
 
           Dow (2 = 2) ;
+            If Start = 120;
+              Leave;
+            Endif;           
             Element += 1 ;
             End = %scan(x'25':Data:(Start + 1)) ;
             If (End > 0) ;
               If (Array(Element) = ' ') ;
                 Array(Element) = %subst(Data:(Start + 1):
-                                       ((End - Start) - 2)) ;
+                                       ((End - Start) - 1)) ;
               Else ;
                 Array(Element) = %trimr(Array(Element)) +
                                  %subst(Data:(Start + 1):
-                                       ((End - Start) - 2)) ;
+                                       ((End - Start) - 1)) ;
               Endif ;
 
               Clear SqlSt;
@@ -132,6 +135,9 @@
                     SqlSt = %Trim(SqlSt) + %Trim(Number)+ ',' ;
                     Split = *On;
                   Else;
+                    If Number = *Blank;
+                      Number = '0';
+                    Endif;  
                     SqlSt = %Trim(SqlSt) + %Trim(Number);
                     Split = *Off;
                   EndIf;
