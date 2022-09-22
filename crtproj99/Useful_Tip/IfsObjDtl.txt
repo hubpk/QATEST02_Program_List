@@ -368,11 +368,16 @@ Create Or Replace View QGPL.QRYIFS As
               QGPL.QRYIFSD D
          Where O.QEZDIRIDX = D.QEZDIRIDX;
 
-You could then create a CSV file on IBM i by using the CPYTOIMPF command:  CPYTOIMPF FROMFILE(QGPL/QRYIFS) TOSTMF('/QRYIFS.CSV') MBROPT(*REPLACE) RCDDLM(*CRLF) ADDCOLNAM(*SQL)
+You could then create a CSV file on IBM i by using the CPYTOIMPF command:  
+CPYTOIMPF FROMFILE(QGPL/QRYIFS) TOSTMF('/QRYIFS.CSV') MBROPT(*REPLACE) RCDDLM(*CRLF) ADDCOLNAM(*SQL)
 
-At 7.3 and later releases of IBM i, you can also use SQL Service QSYS2.IFS_OBJECT_STATISTICS to get similar information. The following example SQL counts the stream file objects by subdirectory. It includes the total size of all stream files in each subdirectory and order the result by largest object count, descending.
+At 7.3 and later releases of IBM i, you can also use SQL Service QSYS2.IFS_OBJECT_STATISTICS to get 
+similar information. The following example SQL counts the stream file objects by subdirectory. 
+It includes the total size of all stream files in each subdirectory and order the result by largest 
+object count, descending.
 
- Note: This query does not run quickly.  It is meant to be run occasionally and not during a performance critical period.
+ Note: This query does not run quickly.  It is meant to be run occasionally and not during a performance 
+ critical period.
 with all_ifs_dirs as
 (select path_name as dir_path
   from table (
